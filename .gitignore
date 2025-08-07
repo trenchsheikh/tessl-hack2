@@ -104,4 +104,11 @@ logs
 
 # Temporary files
 tmp/
-temp/ 
+temp/
+
+# Vercel deployment files
+.vercel
+
+# Server files (not needed for Vercel)
+server.js
+test-vulnerabilities.js 
