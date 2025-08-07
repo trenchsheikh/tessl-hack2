@@ -1,11 +1,22 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "public/**/*",
-      "use": "@vercel/static"
+  "functions": {
+    "api/posts.js": {
+      "maxDuration": 10
+    },
+    "api/posts/[id].js": {
+      "maxDuration": 10
+    },
+    "api/comments.js": {
+      "maxDuration": 10
+    },
+    "api/comments/[postId].js": {
+      "maxDuration": 10
+    },
+    "api/admin/data.js": {
+      "maxDuration": 10
     }
-  ],
+  },
   "routes": [
     {
       "src": "/",
