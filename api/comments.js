@@ -31,10 +31,35 @@ module.exports = function handler(req, res) {
             author: 'Web Developer',
             content: 'The XSS examples are very helpful for understanding how these attacks work.',
             date: '2024-01-16'
+        },
+        {
+            id: 4,
+            postId: 2,
+            author: 'Security Student',
+            content: '<script>alert("XSS Test")</script>This comment contains a test XSS payload.',
+            date: '2024-01-16'
+        },
+        {
+            id: 5,
+            postId: 3,
+            author: 'Database Admin',
+            content: 'SQL injection is indeed a critical vulnerability. Great examples provided!',
+            date: '2024-01-17'
         }
     ];
 
     if (req.method === 'GET') {
+        // Check if requesting comments for a specific post
+        const { pathname } = new URL(req.url, `http://${req.headers.host}`);
+        const postIdMatch = pathname.match(/\/api\/comments\/(\d+)/);
+        
+        if (postIdMatch) {
+            const postId = parseInt(postIdMatch[1]);
+            const postComments = comments.filter(c => c.postId === postId);
+            return res.status(200).json(postComments);
+        }
+        
+        // Return all comments
         return res.status(200).json(comments);
     }
     
