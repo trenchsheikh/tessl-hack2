@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vulnerable Blog Site - Security Testing Platform</title>
+    <link rel="stylesheet" href="/styles.css">
+    <meta name="description" content="Intentionally vulnerable blog site for security testing and AI agent evaluation">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <h1>🔒 Vulnerable Blog</h1>
+                <ul>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/login">Login</a></li>
+                    <li><a href="/admin">Admin</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="warning">
+                <div class="warning-text">
+                    <strong>⚠️ Security Testing Environment</strong><br>
+                    This is an intentionally vulnerable website designed for security testing, penetration testing, and AI agent evaluation. 
+                    All vulnerabilities are intentional and documented for educational purposes.
+                </div>
+            </div>
+            
+            <h2>Latest Blog Posts</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                Explore our intentionally vulnerable blog posts and test various security scenarios.
+            </p>
+            
+            <div class="blog-posts" id="blogPosts">
+                <div class="loading" style="margin: 2rem auto; display: block;"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Vulnerable Blog Site - For Security Testing & AI Agent Evaluation Only</p>
+    </footer>
+
+    <script>
+        // Load blog posts from API with better error handling
+        async function loadBlogPosts() {
+            try {
+                const response = await fetch('/api/posts');
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const posts = await response.json();
+                
+                const postsContainer = document.getElementById('blogPosts');
+                postsContainer.innerHTML = ''; // Clear loading spinner
+                
+                posts.forEach(post => {
+                    const postElement = document.createElement('article');
+                    postElement.className = 'blog-post';
+                    postElement.innerHTML = `
+                        <h3><a href="/post/${post.id}">${post.title}</a></h3>
+                        <p class="post-meta">By ${post.author} on ${post.date}</p>
+                        <p>${post.content}</p>
+                        <a href="/post/${post.id}" class="read-more">Read More</a>
+                    `;
+                    postsContainer.appendChild(postElement);
+                });
+            } catch (error) {
+                console.error('Error loading posts:', error);
+                document.getElementById('blogPosts').innerHTML = `
+                    <div class="error">
+                        <strong>Error loading blog posts:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        // Load posts when page loads
+        document.addEventListener('DOMContentLoaded', loadBlogPosts);
+    </script>
+</body>
+</html> 
